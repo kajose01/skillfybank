@@ -5,7 +5,7 @@ Three services: Account (Node.js), Transaction (Spring Boot), Notification (Pyth
 | Part | Topic | Status |
 |------|-------|--------|
 | 1 | Docker: multi-stage builds, network, Docker Hub | done |
-| 2 | Docker Swarm | pending |
+| 2 | Docker Swarm | done |
 | 3 | Kubernetes | pending |
 | 4 | Istio | pending |
 

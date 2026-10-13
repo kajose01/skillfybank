@@ -1,0 +1,40 @@
+
+version: "3.8"
+
+services:
+  account:
+    image: kaj1/skillfy-account:1.1
+    ports: ["3000:3000"]
+    environment:
+      TRANSACTION_URL: http://transaction:8080
+    networks: [net]
+    deploy:
+      replicas: 2
+
+  transaction:
+    image: kaj1/skillfy-transaction:1.0
+    networks: [net]
+    deploy:
+      replicas: 3
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: start-first
+        failure_action: rollback
+      rollback_config:
+        parallelism: 1
+
+  notification:
+    image: kaj1/skillfy-notification:1.1
+    ports: ["5000:5000"]
+    networks: [net]
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: any
+        delay: 5s
+        window: 10s
+
+networks:
+  net:
+    driver: overlay
