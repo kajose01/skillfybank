@@ -14,7 +14,7 @@ and secured with intelligent traffic routing using Istio.
 | Part | What was built | Status |
 |------|----------------|--------|
 | 1 | Dockerfiles with multi-stage builds, .dockerignore, layer caching; Docker network; images on Docker Hub; broken-push troubleshooting | done |
-| 2 | Docker Swarm (3 managers + 2 workers), stack deploy, overlay network, rolling update, auto-restart, node-failure test, healthchecks | in progress |
+| 2 | Docker Swarm (3 managers + 2 workers), stack deploy, overlay network, rolling update, auto-restart, node-failure test, healthchecks | done |
 | 3 | Kubernetes (3-node cluster), Deployments, ConfigMaps, Secrets, HPA, PV/PVC, Services, rollback, taints/tolerations | pending |
 | 4 | Istio: mTLS, 90/10 traffic split, canary, header-based A/B, Jaeger, circuit breaking | pending |
 
