@@ -48,7 +48,16 @@ See swarm/stack.yml. Deploy on a manager node with:
 Parts 3 and 4 are in sections 6 and 7 below.
 
 ## 5. Evidence
-Screenshots are in docs/screenshots/.
+
+Part 1: images built and pushed to Docker Hub (`docker images`).
+
+![Part 1 docker images](docs/screenshots/01-docker-images.png)
+
+Part 2: Swarm cluster with 3 managers and 2 workers (`docker node ls`).
+
+![Part 2 docker node ls](docs/screenshots/01-node-ls.png)
+
+Parts 3 and 4: the command outputs and test results are recorded in sections 6 and 7 below.
 
 ## 6. Part 3 execution steps (Kubernetes, 3-node k3d cluster)
 
