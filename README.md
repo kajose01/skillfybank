@@ -45,12 +45,12 @@ See swarm/stack.yml. Deploy on a manager node with:
 
     docker stack deploy -c stack.yml bank
 
-(Parts 3 and 4 are added as they are completed.)
+Parts 3 and 4 are in sections 6 and 7 below.
 
 ## 5. Evidence
 Screenshots are in docs/screenshots/.
 
-## 7. Part 3 execution steps (Kubernetes, 3-node k3d cluster)
+## 6. Part 3 execution steps (Kubernetes, 3-node k3d cluster)
 
     k3d cluster create skillfy --servers 1 --agents 2 --k3s-arg "--disable=traefik@server:*" -p "30080:30080@agent:0" -p "5000:5000@loadbalancer"
     kubectl create namespace skillfy
@@ -63,7 +63,7 @@ k8s/secret.example.yaml is a placeholder only. The real Secret is created on the
 
 Demonstrated: Deployments, ConfigMap, Secret, HPA (scaled 1 to 3 under load), PV and PVC (data survived pod deletion), ClusterIP, NodePort and LoadBalancer Services, a broken rollout (ImagePullBackOff) fixed with rollout undo, and taints and tolerations keeping Notification on a dedicated node.
 
-## 8. Part 4 execution steps (Istio)
+## 7. Part 4 execution steps (Istio)
 
     istioctl install -y --set profile=minimal
     kubectl apply -f istio/telemetry.yaml
