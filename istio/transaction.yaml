@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transaction-v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: transaction, version: v1}
+  template:
+    metadata:
+      labels: {app: transaction, version: v1}
+    spec:
+      containers:
+      - name: transaction
+        image: kaj1/skillfy-transaction:1.2
+        env: [{name: APP_VERSION, value: v1}]
+        ports: [{containerPort: 8080}]
+        resources:
+          requests: {cpu: 100m, memory: 256Mi}
+          limits: {cpu: 500m, memory: 512Mi}
+        readinessProbe:
+          httpGet: {path: /actuator/health, port: 8080}
+          initialDelaySeconds: 40
+          periodSeconds: 10
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transaction-v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: transaction, version: v2}
+  template:
+    metadata:
+      labels: {app: transaction, version: v2}
+    spec:
+      containers:
+      - name: transaction
+        image: kaj1/skillfy-transaction:1.2
+        env: [{name: APP_VERSION, value: v2}]
+        ports: [{containerPort: 8080}]
+        resources:
+          requests: {cpu: 100m, memory: 256Mi}
+          limits: {cpu: 500m, memory: 512Mi}
+        readinessProbe:
+          httpGet: {path: /actuator/health, port: 8080}
+          initialDelaySeconds: 40
+          periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: transaction
+spec:
+  type: ClusterIP
+  selector: {app: transaction}
+  ports: [{name: http, port: 8080, targetPort: 8080}]

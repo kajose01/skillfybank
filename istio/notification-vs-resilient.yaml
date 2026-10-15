@@ -1,0 +1,22 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: notification
+spec:
+  hosts: [notification]
+  http:
+  - match:
+    - headers:
+        x-ab-test:
+          exact: "B"
+    route:
+    - destination: {host: notification, subset: v2}
+    retries: {attempts: 3, perTryTimeout: 1s, retryOn: "5xx,connect-failure,reset"}
+    timeout: 2s
+  - route:
+    - destination: {host: notification, subset: v1}
+      weight: 80
+    - destination: {host: notification, subset: v2}
+      weight: 20
+    retries: {attempts: 3, perTryTimeout: 1s, retryOn: "5xx,connect-failure,reset"}
+    timeout: 2s

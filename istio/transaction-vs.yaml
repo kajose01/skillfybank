@@ -1,0 +1,12 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: transaction
+spec:
+  hosts: [transaction]
+  http:
+  - route:
+    - destination: {host: transaction, subset: v1}
+      weight: 90
+    - destination: {host: transaction, subset: v2}
+      weight: 10

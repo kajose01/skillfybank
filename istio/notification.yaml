@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification-v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: notification, version: v1}
+  template:
+    metadata:
+      labels: {app: notification, version: v1}
+    spec:
+      nodeSelector:
+        workload: notification
+      tolerations:
+      - {key: dedicated, operator: Equal, value: notification, effect: NoSchedule}
+      containers:
+      - name: notification
+        image: kaj1/skillfy-notification:1.2
+        env: [{name: APP_VERSION, value: v1}]
+        ports: [{containerPort: 5000}]
+        readinessProbe:
+          httpGet: {path: /health, port: 5000}
+          periodSeconds: 10
+        resources:
+          requests: {cpu: 50m, memory: 64Mi}
+          limits: {cpu: 250m, memory: 128Mi}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification-v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: notification, version: v2}
+  template:
+    metadata:
+      labels: {app: notification, version: v2}
+    spec:
+      nodeSelector:
+        workload: notification
+      tolerations:
+      - {key: dedicated, operator: Equal, value: notification, effect: NoSchedule}
+      containers:
+      - name: notification
+        image: kaj1/skillfy-notification:1.2
+        env: [{name: APP_VERSION, value: v2}]
+        ports: [{containerPort: 5000}]
+        readinessProbe:
+          httpGet: {path: /health, port: 5000}
+          periodSeconds: 10
+        resources:
+          requests: {cpu: 50m, memory: 64Mi}
+          limits: {cpu: 250m, memory: 128Mi}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification
+spec:
+  type: LoadBalancer
+  selector: {app: notification}
+  ports: [{name: http, port: 5000, targetPort: 5000}]
